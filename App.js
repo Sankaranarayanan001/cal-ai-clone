@@ -13,7 +13,11 @@ import SignupScreen from "./screens/SignupScreen";
 import OnboardingScreen from "./screens/OnboardingScreen";
 import RecommendationScreen from "./screens/RecommendationScreen";
 
-import { getCurrentUser, isOnboardingComplete } from "./services/auth";
+import {
+  getCurrentUser,
+  isOnboardingComplete,
+  clearAllData,
+} from "./services/auth";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
