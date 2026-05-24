@@ -8,7 +8,7 @@ import {
   ActivityIndicator,
 } from "react-native";
 import { useState } from "react";
-import { login } from "../services/auth";
+import { login, isOnboardingComplete } from "../services/auth";
 
 export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState("");
@@ -24,7 +24,12 @@ export default function LoginScreen({ navigation }) {
     const result = await login(email.toLowerCase().trim(), password);
     setLoading(false);
     if (result.success) {
-      navigation.replace("MainApp");
+      const onboarded = await isOnboardingComplete(result.user.email);
+      if (onboarded) {
+        navigation.replace("MainApp");
+      } else {
+        navigation.replace("Onboarding");
+      }
     } else {
       Alert.alert("Login Failed", result.error);
     }
