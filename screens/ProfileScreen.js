@@ -10,6 +10,7 @@ import {
 import { useState, useCallback } from "react";
 import { useFocusEffect } from "@react-navigation/native";
 import { getGoals, saveGoals, getStreak } from "../services/storage";
+import { logout, getCurrentUser, getUserProfile } from "../services/auth";
 
 export default function ProfileScreen() {
   const [goals, setGoals] = useState({
@@ -189,6 +190,17 @@ export default function ProfileScreen() {
         </View>
       </View>
 
+      {/* Logout Button */}
+      <TouchableOpacity
+        style={styles.logoutBtn}
+        onPress={async () => {
+          await logout();
+          navigation.replace("Login");
+        }}
+      >
+        <Text style={styles.logoutText}>🚪 Logout</Text>
+      </TouchableOpacity>
+
       <View style={{ height: 30 }} />
     </ScrollView>
   );
@@ -267,4 +279,20 @@ const styles = StyleSheet.create({
   },
   infoLabel: { fontSize: 14, color: "#666" },
   infoValue: { fontSize: 14, color: "#fff", fontWeight: "500" },
+
+  logoutBtn: {
+    marginHorizontal: 16,
+    marginBottom: 16,
+    backgroundColor: "#1a1a1a",
+    borderRadius: 12,
+    padding: 16,
+    alignItems: "center",
+    borderWidth: 1,
+    borderColor: "#ff5252",
+  },
+  logoutText: {
+    color: "#ff5252",
+    fontSize: 16,
+    fontWeight: "bold",
+  },
 });
