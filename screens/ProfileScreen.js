@@ -12,7 +12,7 @@ import { useFocusEffect } from "@react-navigation/native";
 import { getGoals, saveGoals, getStreak } from "../services/storage";
 import { logout, getCurrentUser, getUserProfile } from "../services/auth";
 
-export default function ProfileScreen() {
+export default function ProfileScreen({ navigation }) {
   const [goals, setGoals] = useState({
     calories: 2000,
     protein: 150,
