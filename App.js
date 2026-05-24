@@ -13,12 +13,15 @@ import SignupScreen from "./screens/SignupScreen";
 import OnboardingScreen from "./screens/OnboardingScreen";
 import RecommendationScreen from "./screens/RecommendationScreen";
 
-import { getCurrentUser, isOnboardingComplete } from "./services/auth";
+import {
+  getCurrentUser,
+  isOnboardingComplete,
+  clearAllData,
+} from "./services/auth";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
-// Main tab navigator
 function MainApp() {
   return (
     <Tab.Navigator
@@ -69,17 +72,9 @@ export default function App() {
 
   const checkAuth = async () => {
     try {
-      const user = await getCurrentUser();
-      if (user) {
-        const onboarded = await isOnboardingComplete(user.email);
-        if (onboarded) {
-          setInitialRoute("MainApp");
-        } else {
-          setInitialRoute("Onboarding");
-        }
-      } else {
-        setInitialRoute("Login");
-      }
+      // Clear old session data so login screen shows fresh
+      await clearAllData();
+      setInitialRoute("Login");
     } catch {
       setInitialRoute("Login");
     }

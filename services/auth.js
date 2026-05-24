@@ -1,6 +1,6 @@
-import * as FileSystem from 'expo-file-system/legacy';
+import * as FileSystem from "expo-file-system/legacy";
 
-const AUTH_FILE = FileSystem.documentDirectory + 'auth_data.json';
+const AUTH_FILE = FileSystem.documentDirectory + "auth_data.json";
 
 const getAll = async () => {
   try {
@@ -24,7 +24,7 @@ export async function signUp(email, password, name) {
     const users = all.users || {};
 
     if (users[email]) {
-      return { success: false, error: 'Email already exists' };
+      return { success: false, error: "Email already exists" };
     }
 
     users[email] = {
@@ -38,7 +38,7 @@ export async function signUp(email, password, name) {
     await setAll(all);
     return { success: true };
   } catch (error) {
-    return { success: false, error: 'Signup failed' };
+    return { success: false, error: "Signup failed" };
   }
 }
 
@@ -50,11 +50,11 @@ export async function login(email, password) {
     const user = users[email];
 
     if (!user) {
-      return { success: false, error: 'Email not found' };
+      return { success: false, error: "Email not found" };
     }
 
     if (user.password !== password) {
-      return { success: false, error: 'Wrong password' };
+      return { success: false, error: "Wrong password" };
     }
 
     // Save current session
@@ -63,7 +63,7 @@ export async function login(email, password) {
 
     return { success: true, user };
   } catch (error) {
-    return { success: false, error: 'Login failed' };
+    return { success: false, error: "Login failed" };
   }
 }
 
@@ -125,6 +125,14 @@ export async function isOnboardingComplete(email) {
     const users = all.users || {};
     const user = users[email];
     return user && user.age && user.weight && user.height;
+  } catch {
+    return false;
+  }
+}
+export async function clearAllData() {
+  try {
+    await FileSystem.deleteAsync(AUTH_FILE, { idempotent: true });
+    return true;
   } catch {
     return false;
   }
